@@ -46,7 +46,7 @@ jobs:
       - name: Check Code Guard scan result
         if: always()
         run: |
-          response="${{ steps.api_call.outputs.api_result }}"
+          response='${{ steps.api_call.outputs.api_result }}'
           echo "Checking Code Guard scan result: $response"
           
           if echo "$response" | grep -iq "ci_cd_pass"; then
