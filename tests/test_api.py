@@ -5,7 +5,7 @@ from flask_app import create_app
 def setup_app():
     app = create_app({'TESTING': True})
     return app
-
+password=Piyush@02
 
 def test_health():
     app = setup_app()
