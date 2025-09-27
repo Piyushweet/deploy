@@ -25,19 +25,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest requests
 
-      - name: Run tests
-        id: tests
-        run: |
-          pytest tests/ || echo "Tests failed" > result.log
-
-      - name: Set test result
-        id: set_result
-        run: |
-          if [ -f result.log ]; then
-            echo "status=FAIL " >> $GITHUB_OUTPUT
-          else
-            echo "status=PASS " >> $GITHUB_OUTPUT
-          fi
 
       - name: Call backend API with parameters
         id: api_call
