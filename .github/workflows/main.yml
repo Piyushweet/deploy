@@ -53,3 +53,15 @@ jobs:
           echo "API response: $response"
           echo "api_result=$response" >> $GITHUB_OUTPUT
 
+      - name: Fail if API response contains fail
+        if: always()
+        run: |
+          response="${{ steps.api_call.outputs.api_result }}"
+          echo "Checking API response: $response"
+          if echo "$response" | grep -iq "fail"; then
+            echo "❌ API returned fail. Failing the workflow."
+            exit 1
+          else
+            echo "✅ API response OK."
+          fi
+
