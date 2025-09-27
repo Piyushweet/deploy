@@ -43,8 +43,8 @@ jobs:
         id: api_call
         run: |
           # Set parameters
-          PARAM1=10
-          PARAM2=11
+          PARAM1=110
+          PARAM2=60
           PARAM3=12
 
           # Call your API
