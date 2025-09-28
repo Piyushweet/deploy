@@ -44,27 +44,26 @@ jobs:
           echo "api_result=$response" >> $GITHUB_OUTPUT
 
       - name: Check Code Guard scan result
-        if: always()
-        continue-on-error: false
+        id: check_scan
         run: |
-          set -e  # Stop script if anything fails
           response='${{ steps.api_call.outputs.api_result }}'
           echo "Checking Code Guard scan result: $response"
 
           ci_cd_pass=$(echo "$response" | jq -r '.ci_cd_pass')
-
           ci_cd_pass_lower=$(echo "$ci_cd_pass" | tr '[:upper:]' '[:lower:]')
 
           if [ "$ci_cd_pass_lower" = "true" ]; then
-            echo "✅ Code Guard scan passed. Proceeding with deployment."
+            echo "✅ Code Guard scan passed."
+            echo "scan_passed=true" >> $GITHUB_OUTPUT
           else
-            echo "❌ Code Guard scan failed or ci_cd_pass is not true. Failing the workflow."
+            echo "❌ Code Guard scan failed."
+            echo "scan_passed=false" >> $GITHUB_OUTPUT
             exit 1
           fi
 
       
       - name: Deploy Python backend to EC2
-        if: success()  # Only deploy if tests and Code Guard scan passed
+        if: steps.check_scan.outputs.scan_passed == 'true'
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.EC2_HOST }}
