@@ -26,9 +26,6 @@ def get_admin_data():
     return db.execute(f"SELECT * FROM users WHERE id={user_id}")
 
 
-
-
-
 # ============================================================
 # A02:2021 - Cryptographic Failures
 # ============================================================
