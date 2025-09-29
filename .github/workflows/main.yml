@@ -56,7 +56,7 @@ jobs:
             echo "✅ Code Guard scan passed."
             echo "scan_passed=true" >> $GITHUB_OUTPUT
           else
-            echo "❌ Code Guard scan failed. Critical vulnerabilities found."
+            echo "❌ Code push failed. Critical vulnerabilities found."
             echo "scan_passed=false" >> $GITHUB_OUTPUT
             # Exit with error code to fail the job
             exit 1
