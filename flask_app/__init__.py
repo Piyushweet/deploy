@@ -11,6 +11,6 @@ def create_app(test_config=None):
     from .routes import api_bp
     app.register_blueprint(api_bp, url_prefix="/api")
 
-    print("Secret key = "$2b$12$J8FHja14iO552eq2hlp/WueZ7ABs5I.J22NU.d2lOBXykIoYnFe9q")
+   print("abc")
 
     return app
