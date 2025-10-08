@@ -12,7 +12,6 @@ DB = {
     ]
 }
 
-print(abc)
 
 # Helper to find item
 def _find_item(item_id):
