@@ -46,21 +46,18 @@ jobs:
       - name: Check Code Guard scan result
         id: check_scan
         run: |
-          response='${{ steps.api_call.outputs.api_result }}'
+          echo "${{ steps.api_call.outputs.api_result }}" > response.json
+          ci_cd_pass=$(jq -r '.ci_cd_pass' response.json | tr '[:upper:]' '[:lower:]')
 
-          # Parse the ci_cd_pass value from the response
-          ci_cd_pass=$(echo "$response" | jq -r '.ci_cd_pass')
-          ci_cd_pass_lower=$(echo "$ci_cd_pass" | tr '[:upper:]' '[:lower:]')
-
-          if [ "$ci_cd_pass_lower" = "true" ]; then
+          if [ "$ci_cd_pass" = "true" ]; then
             echo "✅ Code Guard scan passed."
             echo "scan_passed=true" >> $GITHUB_OUTPUT
           else
             echo "❌ Code push failed. Critical vulnerabilities found."
             echo "scan_passed=false" >> $GITHUB_OUTPUT
-            # Exit with error code to fail the job
             exit 1
           fi
+
 
       - name: Deploy Python backend to EC2
         # Only run if the previous step succeeded (scan passed)
