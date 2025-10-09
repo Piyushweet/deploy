@@ -28,7 +28,7 @@ jobs:
           echo "Starting Code Guard security scan..."
           
           # Call Code Guard API using secrets
-          response=$(curl -s --location 'http://primafelicitas.invield.com:8011/code-guard/git/pdf/scan/ci-cd' \
+          response=$(curl -s --location 'https://primafelicitas.invield.com/api/code-guard/git/pdf/scan/ci-cd' \
             --header 'sec-ch-ua-platform: "Windows"' \
             --header 'X-User-ID: ${{ secrets.CODE_GUARD_USER_ID }}' \
             --header 'sec-ch-ua: "Not;A=Brand";v="99", "Microsoft Edge";v="139", "Chromium";v="139"' \
