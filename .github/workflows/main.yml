@@ -46,7 +46,7 @@ jobs:
       - name: Check Code Guard scan result
         id: check_scan
         run: |
-          echo "${{ steps.api_call.outputs.api_result }}" > response.json
+          echo '${{ steps.api_call.outputs.api_result }}' > response.json
           ci_cd_pass=$(jq -r '.ci_cd_pass' response.json | tr '[:upper:]' '[:lower:]')
 
           if [ "$ci_cd_pass" = "true" ]; then
