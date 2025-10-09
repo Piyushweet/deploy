@@ -41,24 +41,25 @@ jobs:
             --form "token=\"${{ secrets.CODE_GUARD_TOKEN }}\"")
           
           echo "Code Guard API response: $response"
-          echo "api_result=$response" >> $GITHUB_OUTPUT
-
+          
+          # Save response to file instead of GITHUB_OUTPUT to avoid special character issues
+          echo "$response" > response.json
+          
       - name: Check Code Guard scan result
         id: check_scan
         run: |
-          echo '${{ steps.api_call.outputs.api_result }}' > response.json
+          # Read the response from file
           ci_cd_pass=$(jq -r '.ci_cd_pass' response.json | tr '[:upper:]' '[:lower:]')
-
+          
           if [ "$ci_cd_pass" = "true" ]; then
             echo "✅ Code Guard scan passed."
             echo "scan_passed=true" >> $GITHUB_OUTPUT
           else
             echo "❌ Code push failed. Critical vulnerabilities found."
-            echo "scan_passed=false" >> $GITHUB_OUTPUT
+            echo "scan_passed=false" >> $GITHUB_OUTPUT            
             exit 1
           fi
-
-
+          
       - name: Deploy Python backend to EC2
         # Only run if the previous step succeeded (scan passed)
         if: success()
