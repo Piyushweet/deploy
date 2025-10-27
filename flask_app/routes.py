@@ -2,8 +2,6 @@ from flask import Blueprint, jsonify, request, abort
 import random
 from datetime import datetime
 
-print("ABC")
-
 api_bp = Blueprint('api', __name__)
 
 # Simple in-memory 'database' for demo
