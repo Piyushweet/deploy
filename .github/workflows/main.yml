@@ -51,6 +51,7 @@ jobs:
           
           if [ "$ci_cd_pass" = "true" ]; then
             echo "✅ Code Guard scan passed."
+            echo "repo_url=$pdf_url"
             echo "scan_passed=true" >> $GITHUB_OUTPUT
           else
             echo "❌ Code push failed. Critical vulnerabilities found."
@@ -61,6 +62,7 @@ jobs:
       - name: Deploy Python backend to EC2
         # Only run if the previous step succeeded (scan passed)
         if: success()
+
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.EC2_HOST }}
