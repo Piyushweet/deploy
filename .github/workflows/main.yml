@@ -48,10 +48,11 @@ jobs:
         run: |
           # Read the response from file
           ci_cd_pass=$(jq -r '.ci_cd_pass' response.json | tr '[:upper:]' '[:lower:]')
+          pdf_url=$(jq -r '.pdf_url' response.json)
           
           if [ "$ci_cd_pass" = "true" ]; then
             echo "✅ Code Guard scan passed."
-            echo "repo_url=$pdf_url"
+            echo "Report URL = $pdf_url"
             echo "scan_passed=true" >> $GITHUB_OUTPUT
           else
             echo "❌ Code push failed. Critical vulnerabilities found."
